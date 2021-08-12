@@ -6,9 +6,12 @@
 package edu.eci.arsw.threads;
 
 import java.lang.Thread;
+
 /**
- *
+ * Simple synchronous implementation of a thread
  * @author hcadavid
+ * @author Angie Medina
+ * @author Jose Perez
  */
 public class CountThread extends Thread{
     private int a;

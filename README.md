@@ -16,11 +16,17 @@
 **Parte I - Introducción a Hilos en Java**
 
 1. De acuerdo con lo revisado en las lecturas, complete las clases CountThread, para que las mismas definan el ciclo de vida de un hilo que imprima por pantalla los números entre A y B.
+![](img/CountThread.png)
+
 2. Complete el método __main__ de la clase CountMainThreads para que:
 	1. Cree 3 hilos de tipo CountThread, asignándole al primero el intervalo [0..99], al segundo [99..199], y al tercero [200..299].
+	![](img/CountThreadsMain.png)
 	2. Inicie los tres hilos con 'start()'.
 	3. Ejecute y revise la salida por pantalla. 
+	![](img/start.png)
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?.
+	![](img/run.png)
+    La salida con el metodo ***start()*** genera un orden que no concurda con lo especificado con el codigo, mientras que usando el metodo ***run()*** se obtiene el ordene esperado. Esto se debe a que con el metodo start() creas un nuevo hilo y ejecuta el metodo run() de manera sincrona con los otros hilos creados, mientras que con el metodo ru() simplemente se corre el codigo contenido en el metodo.
 
 **Parte II - Ejercicio Black List Search**
 
