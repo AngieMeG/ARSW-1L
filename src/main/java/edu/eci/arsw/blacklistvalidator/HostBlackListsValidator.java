@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.validation.Validator;
-
 /**
  *
  * @author hcadavid
@@ -36,8 +34,6 @@ public class HostBlackListsValidator {
     public List<Integer> checkHost(String ipaddress, int n){
 
         HostBlacklistsDataSourceFacade skds = HostBlacklistsDataSourceFacade.getInstance();
-        LinkedList<Integer> blackListOcurrences = new LinkedList<>();
-        int ocurrencesCount = 0, checkedListsCount = 0;
         int range = skds.getRegisteredServersCount()/n;
 
         ArrayList<ConcurrentHostBlackListsValidator> validators = new ArrayList<ConcurrentHostBlackListsValidator>();
@@ -51,14 +47,45 @@ public class HostBlackListsValidator {
             for(ConcurrentHostBlackListsValidator validator : validators) validator.join();
         } catch (Exception e) {}
         
-        for(ConcurrentHostBlackListsValidator validator : validators) {
-            checkedListsCount += validator.getCheckedListsCount();
-            ocurrencesCount += validator.getBlackListOcurrences().size();
-            blackListOcurrences.addAll(validator.getBlackListOcurrences());
-        }
+        LinkedList<Integer> blackListOcurrences = ConcurrentHostBlackListsValidator.getBlackListOcurrences();
+        int checkedListsCount = ConcurrentHostBlackListsValidator.getCheckedListsCount();
+        int ocurrencesCount = ConcurrentHostBlackListsValidator.getOcurrencesCount();
 
         if (ocurrencesCount>=BLACK_LIST_ALARM_COUNT) skds.reportAsNotTrustworthy(ipaddress);
         else skds.reportAsTrustworthy(ipaddress);                
+        
+        LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
+        
+        return blackListOcurrences;
+    }
+
+    public List<Integer> checkHost2(String ipaddress){
+        
+        LinkedList<Integer> blackListOcurrences=new LinkedList<>();
+        
+        int ocurrencesCount=0;
+        
+        HostBlacklistsDataSourceFacade skds=HostBlacklistsDataSourceFacade.getInstance();
+        
+        int checkedListsCount=0;
+        
+        for (int i=0;i<skds.getRegisteredServersCount() && ocurrencesCount<BLACK_LIST_ALARM_COUNT;i++){
+            checkedListsCount++;
+            
+            if (skds.isInBlackListServer(i, ipaddress)){
+                
+                blackListOcurrences.add(i);
+                
+                ocurrencesCount++;
+            }
+        }
+        
+        if (ocurrencesCount>=BLACK_LIST_ALARM_COUNT){
+            skds.reportAsNotTrustworthy(ipaddress);
+        }
+        else{
+            skds.reportAsTrustworthy(ipaddress);
+        }                
         
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
         
