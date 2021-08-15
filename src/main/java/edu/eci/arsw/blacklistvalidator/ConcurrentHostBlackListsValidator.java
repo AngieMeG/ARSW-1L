@@ -1,7 +1,11 @@
 package edu.eci.arsw.blacklistvalidator;
 
 import edu.eci.arsw.spamkeywordsdatasource.HostBlacklistsDataSourceFacade;
+
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConcurrentHostBlackListsValidator extends Thread{
 
@@ -10,49 +14,47 @@ public class ConcurrentHostBlackListsValidator extends Thread{
     private int lowerBound;
     private int upperBound;
 
-    private static int checkedListsCount = 0;
-    private static int ocurrencesCount = 0;
-    private static LinkedList<Integer> blackListOcurrences;
-
-    private static final int BLACK_LIST_ALARM_COUNT=5;
+    private static AtomicInteger checkedListsCount = new AtomicInteger(0);
+    private static AtomicInteger ocurrencesCount = new AtomicInteger(0);
+    private static List<Integer> blackListOcurrences = Collections.synchronizedList(new LinkedList<Integer>());
 
     public ConcurrentHostBlackListsValidator(int lowerBound, int upperBound, String ipaddress, HostBlacklistsDataSourceFacade skds){
         this.skds = skds;
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.ipaddress = ipaddress;
-
-        blackListOcurrences = new LinkedList<>();
     }
+
+    public ConcurrentHostBlackListsValidator(){};
 
     @Override
     public void run() {
         for(int i = lowerBound; i < upperBound; i++){ 
-            increaseCheckedListCounter();
-            if(ocurrencesCount < BLACK_LIST_ALARM_COUNT){
+            if(ocurrencesCount.get() < HostBlackListsValidator.BLACK_LIST_ALARM_COUNT){
                 if(skds.isInBlackListServer(i, ipaddress)) addOcurrence(i);
             }else break;
+            increaseCheckedListCounter();
         }
     }
 
     static public LinkedList<Integer> getBlackListOcurrences() {
-        return blackListOcurrences;
+        return new LinkedList<Integer>(blackListOcurrences);
     }
 
     static public int getCheckedListsCount() {
-        return checkedListsCount;
+        return checkedListsCount.get();
     }
 
     static public int getOcurrencesCount() {
-        return ocurrencesCount;
+        return ocurrencesCount.get();
     }
 
     synchronized void increaseCheckedListCounter(){
-        checkedListsCount++;
+        checkedListsCount.incrementAndGet();
     }
     
     synchronized void addOcurrence(int occurrence){
         blackListOcurrences.add(occurrence);
-        ocurrencesCount++;
+        ocurrencesCount.incrementAndGet();
     }
 }

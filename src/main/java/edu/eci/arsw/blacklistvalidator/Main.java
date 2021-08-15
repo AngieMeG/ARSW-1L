@@ -6,6 +6,7 @@
 package edu.eci.arsw.blacklistvalidator;
 
 import java.util.List;
+import java.lang.Runtime;
 
 /**
  *
@@ -14,20 +15,26 @@ import java.util.List;
 public class Main {
     
     public static void main(String a[]){
-        List<Integer> blackListOcurrences;
+
+        Runtime vjm = Runtime.getRuntime();
+        int numberCores = vjm.availableProcessors();
+        
+        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", 500));
+        
+        
+    }
+
+    public static String testByThreadsNumber(String ipaddress, int threadsNumber){
+
         HostBlackListsValidator hblv=new HostBlackListsValidator();
         
-        long t1 = System.currentTimeMillis();
-        blackListOcurrences=hblv.checkHost2("200.24.34.55");
-        System.out.println("Performance: "+(System.currentTimeMillis()-t1));
-        System.out.println("The host was found in the following blacklists:"+blackListOcurrences);
-        
-        System.out.println("-------------------------------------------------------------------");
-        
-        t1 = System.currentTimeMillis();
-        blackListOcurrences=hblv.checkHost("200.24.34.55",500);
-        System.out.println("Performance: "+(System.currentTimeMillis()-t1));
-        System.out.println("The host was found in the following blacklists:"+blackListOcurrences);
+        long t1 = System.currentTimeMillis(), performance;
+        List<Integer> blackListOcurrences = hblv.checkHost(ipaddress,threadsNumber);
+        performance = System.currentTimeMillis() - t1;
+        System.out.println("The host was found in the following blacklists:" + blackListOcurrences);
+
+        return "" + performance + "ms";
+
     }
     
 }
