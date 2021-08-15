@@ -15,13 +15,12 @@ import java.lang.Runtime;
 public class Main {
     
     public static void main(String a[]){
-
+        
         Runtime vjm = Runtime.getRuntime();
         int numberCores = vjm.availableProcessors();
-        
-        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", 500));
-        
-        
+        System.out.println("\nNumber of Threads: "+200);
+        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", 200));
+        System.out.println();
     }
 
     public static String testByThreadsNumber(String ipaddress, int threadsNumber){

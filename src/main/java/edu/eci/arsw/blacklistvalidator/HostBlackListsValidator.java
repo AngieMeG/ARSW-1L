@@ -37,11 +37,9 @@ public class HostBlackListsValidator {
         int range = skds.getRegisteredServersCount()/n;
 
         ArrayList<ConcurrentHostBlackListsValidator> validators = new ArrayList<ConcurrentHostBlackListsValidator>();
-        int total = 0;
         try {
             for(int i = 0; i < skds.getRegisteredServersCount(); i+=range){
                 int upperBound = (i + range) >= skds.getRegisteredServersCount() ? skds.getRegisteredServersCount() : (i + range);
-                total += upperBound - i;
                 ConcurrentHostBlackListsValidator validator = new ConcurrentHostBlackListsValidator(i, upperBound, ipaddress, skds);
                 validators.add(validator);
                 validator.start();

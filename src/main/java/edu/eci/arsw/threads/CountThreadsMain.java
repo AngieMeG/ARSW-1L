@@ -17,7 +17,7 @@ public class CountThreadsMain {
     public static void main(String a[]){
         ArrayList<CountThread> threads = new ArrayList<>();
         threads.add(new CountThread(0,99));
-        threads.add(new CountThread(99, 199));
+        threads.add(new CountThread(100, 199));
         threads.add(new CountThread(200,299));
         for(CountThread thread : threads) thread.run();
     }
