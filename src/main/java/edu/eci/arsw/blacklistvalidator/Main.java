@@ -19,7 +19,7 @@ public class Main {
         Runtime vjm = Runtime.getRuntime();
         int numberCores = vjm.availableProcessors();
         
-        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", 500));
+        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", 100));
         
         
     }
