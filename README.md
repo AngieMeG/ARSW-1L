@@ -26,7 +26,7 @@
 	![](img/start.PNG)  
 	4. Cambie el incio con 'start()' por 'run()'. Cómo cambia la salida?, por qué?  
 	![](img/run.PNG)  
-    La salida con el metodo ***start()*** genera un orden que no concurda con lo especificado con el codigo, mientras que usando el metodo ***run()*** se obtiene el ordene esperado. Esto se debe a que con el metodo ***start()*** creas un nuevo hilo y ejecuta el metodo ***run()*** de manera sincrona con los otros hilos creados, mientras que con el metodo ***ruN()*** simplemente se corre el codigo contenido en el metodo.
+    La salida con el metodo ***start()*** genera un orden que no concurda con lo especificado con el codigo, mientras que usando el metodo ***run()*** se obtiene el ordene esperado. Esto se debe a que con el metodo ***start()*** creas un nuevo hilo y ejecuta el metodo ***run()*** de manera sincrona con los otros hilos creados, mientras que con el metodo ***run()*** simplemente se corre el codigo contenido en el metodo.
 
 **Parte II - Ejercicio Black List Search**
 
@@ -71,15 +71,26 @@ La estrategia de paralelismo antes implementada es ineficiente en ciertos casos,
 
 A partir de lo anterior, implemente la siguiente secuencia de experimentos para realizar las validación de direcciones IP dispersas (por ejemplo 202.24.34.55), tomando los tiempos de ejecución de los mismos (asegúrese de hacerlos en la misma máquina):
 
-1. Un solo hilo.
-2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)).
-3. Tantos hilos como el doble de núcleos de procesamiento.
-4. 50 hilos.
-5. 100 hilos.
+1. Un solo hilo.  
+![Thread](img/1Thread.PNG)  
+![ThreadGraph](img/1ThreadGrafica.PNG)  
+2. Tantos hilos como núcleos de procesamiento (haga que el programa determine esto haciendo uso del [API Runtime](https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html)). 8 hilos  
+![Thread](img/8Thread.PNG)  
+![ThreadGraph](img/8ThreadGrafica.PNG)  
+3. Tantos hilos como el doble de núcleos de procesamiento. 16 hilos
+![Thread](img/16Thread.PNG)  
+![ThreadGraph](img/16ThreadGrafica.PNG)  
+4. 50 hilos.  
+![Thread](img/50Thread.PNG)  
+![ThreadGraph](img/50ThreadGrafica.PNG)  
+5. 100 hilos. 
+![Thread](img/100Thread.PNG)  
+![ThreadGraph](img/100ThreadGrafica.PNG)  
 
 Al iniciar el programa ejecute el monitor jVisualVM, y a medida que corran las pruebas, revise y anote el consumo de CPU y de memoria en cada caso. ![](img/jvisualvm.png)
 
-Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):
+Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tiempo de solución vs. número de hilos. Analice y plantee hipótesis con su compañero para las siguientes preguntas (puede tener en cuenta lo reportado por jVisualVM):  
+![Grafica](img/Grafica.PNG)  
 
 **Parte IV - Ejercicio Black List Search**
 
@@ -90,6 +101,4 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
 
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
-
-
 
