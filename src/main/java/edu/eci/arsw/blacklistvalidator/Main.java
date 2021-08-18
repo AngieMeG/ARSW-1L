@@ -18,8 +18,13 @@ public class Main {
         
         Runtime vjm = Runtime.getRuntime();
         int numberCores = vjm.availableProcessors();
-        numberCores = 600;
         
+        System.out.println("\nNumber of Threads: "+numberCores);
+        System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", numberCores));
+        System.out.println();
+
+        numberCores *= 2;
+
         System.out.println("\nNumber of Threads: "+numberCores);
         System.out.println("Performance: " + testByThreadsNumber("212.24.24.55", numberCores));
         System.out.println();

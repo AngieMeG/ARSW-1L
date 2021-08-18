@@ -11,7 +11,7 @@
 
 ### Descripción
   Este ejercicio contiene una introducción a la programación con hilos en Java, además de la aplicación a un caso concreto.
-  
+
 
 **Parte I - Introducción a Hilos en Java**
 
@@ -98,7 +98,13 @@ Con lo anterior, y con los tiempos de ejecución dados, haga una gráfica de tie
 
 	![](img/ahmdahls.png), donde _S(n)_ es el mejoramiento teórico del desempeño, _P_ la fracción paralelizable del algoritmo, y _n_ el número de hilos, a mayor _n_, mayor debería ser dicha mejora. Por qué el mejor desempeño no se logra con los 500 hilos?, cómo se compara este desempeño cuando se usan 200?. 
 
-2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+	* El mejor desempeño, al hacer estimaciones con un porcentaje de codigo paralelizable del 95%, la ley de Amdahl dice que para los primeros 50 hilos se puede esperar que al duplicar el numero de estos el programa duplique tambien el performance. Luego de los 400 nucleos la mejora en el performance comienza a ser menospreciable.
 
+2. Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?.
+	
+	* Como se menciona en el primer inciso, la mejora en el performance para esta cantidad de hilos se comporta de manera casi lineal, usando 12 hilos el programa completo la busqueda en 11504ms y para los 24 completo la busqueda en 5628ms, se obtuvo una mejora de 5876ms.![](img/ThreadComparation.PNG)
+	
 3. De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?. Explique su respuesta.
+
+  * El mejoramiento en el performance tiene en cuenta que paralelizable es el codigo y cuantos procesadores/hilos se usaran, por lo que teoricamente no deberia haber mucha diferencia.
 
